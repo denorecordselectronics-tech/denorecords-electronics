@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Shop Electronics - DENO RECORDS ELECTRONICS{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row gap-6 mb-8 items-center justify-between">
+    <h1 class="text-3xl font-bold">Recommended for You</h1>
+    
+    <div class="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
+        <a href="?" class="px-4 py-2 rounded-full whitespace-nowrap {% if not current_category %}bg-blue-600 text-white{% else %}bg-white border hover:bg-gray-100{% endif %}">All</a>
+        {% for cat in categories %}
+        <a href="?category={{ cat.slug }}" class="px-4 py-2 rounded-full whitespace-nowrap {% if request.GET.category == cat.slug %}bg-blue-600 text-white{% else %}bg-white border hover:bg-gray-100{% endif %}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+{% if not products %}
+<div class="text-center py-20 bg-white rounded-xl shadow-sm border">
+    <i class="fas fa-search text-6xl text-gray-200 mb-4"></i>
+    <p class="text-xl text-gray-500">No products found for "{{ request.GET.q }}".</p>
+    <a href="/" class="text-blue-600 font-semibold mt-4 block">View All Products</a>
+</div>
+{% else %}
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+    {% for product in products %}
+    <div class="bg-white rounded-xl shadow-sm border overflow-hidden group hover:shadow-lg transition-shadow">
+        <a href="{% url 'products:product_detail' product.slug %}" class="block relative aspect-square overflow-hidden bg-gray-100">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                <i class="fas fa-image text-4xl"></i>
+            </div>
+            {% endif %}
+            <div class="absolute top-2 left-2 px-2 py-0.5 bg-yellow-400 text-xs font-bold rounded">HOT DEAL</div>
+        </a>
+        <div class="p-4">
+            <p class="text-xs text-blue-600 font-semibold mb-1">{{ product.category.name|upper }}</p>
+            <h2 class="font-bold text-sm md:text-base mb-2 line-clamp-2 h-10 md:h-12">
+                <a href="{% url 'products:product_detail' product.slug %}" class="hover:text-blue-800">{{ product.name }}</a>
+            </h2>
+            <div class="flex flex-col gap-3">
+                <p class="text-xl font-bold text-gray-900">{{ product.formatted_price }}</p>
+                <a href="{% url 'products:product_detail' product.slug %}" 
+                   class="w-full whatsapp-green text-white text-center py-2 rounded-lg font-bold flex items-center justify-center gap-2 text-sm">
+                    <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if is_paginated %}
+<div class="mt-12 flex justify-center gap-2">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 border rounded hover:bg-gray-100">Prev</a>
+    {% endif %}
+    <span class="px-4 py-2 bg-blue-600 text-white rounded">{{ page_obj.number }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 border rounded hover:bg-gray-100">Next</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

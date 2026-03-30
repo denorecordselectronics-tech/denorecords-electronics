@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DENO RECORDS ELECTRONICS - Best Deals in Nairobi{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .whatsapp-green { background-color: #25D366; }
+        .whatsapp-green:hover { background-color: #128C7E; }
+        .aspect-square { aspect-ratio: 1 / 1; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+            <a href="/" class="text-2xl font-bold text-blue-800 italic uppercase">Deno<span class="text-red-600">Records</span> <span class="text-gray-900">Electronics</span></a>
+            
+            <form action="{% url 'products:product_list' %}" method="GET" class="w-full md:w-1/2 relative">
+                <input type="text" name="q" placeholder="Search for Appliances, Woofers, Cameras..." 
+                       class="w-full border rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       value="{{ request.GET.q }}">
+                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <div class="hidden md:flex items-center gap-6">
+                <a href="https://wa.me/2547XXXXXXXX" class="flex items-center gap-2 text-green-600 font-semibold hover:text-green-700">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    <span>Chat With Us</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Trust Signals Bar -->
+        <div class="bg-blue-800 text-white text-xs py-1">
+                <span class="flex items-center gap-1 font-bold text-yellow-400 animate-pulse"><i class="fas fa-globe-africa"></i> AVAILABLE NATIONWIDE - KENYA</span>
+                <span class="flex items-center gap-1"><i class="fas fa-truck"></i> Same-day Delivery in Nairobi</span>
+                <span class="flex items-center gap-1"><i class="fas fa-shield-alt"></i> Pay on Delivery</span>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+                <h3 class="text-xl font-bold text-white mb-4">DENO RECORDS ELECTRONICS</h3>
+                <p class="text-sm">Your premier destination for high-quality electronics, home appliances, and sound equipment. Available nationwide across Kenya with fast, reliable shipping.</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/" class="hover:text-blue-400">Home</a></li>
+                    <li><a href="/?category=home-appliances" class="hover:text-blue-400">Home Appliances</a></li>
+                    <li><a href="/?category=music-sound" class="hover:text-blue-400">Music & Sound</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Support</h3>
+                <p class="text-sm mb-2"><i class="fas fa-phone mr-2"></i> +254 7XX XXX XXX</p>
+                <p class="text-sm mb-4"><i class="fab fa-whatsapp mr-2"></i> Click to Chat</p>
+                <div class="flex justify-center md:justify-start gap-4 text-xl">
+                    <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-xs">
+            &copy; 2026 DENO RECORDS ELECTRONICS. All Rights Reserved.
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
