@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Product, Category
+from .models import Product, Category, HeroCarousel
 from .utils import get_whatsapp_link
 
 class ProductListView(ListView):
@@ -29,6 +29,8 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        # Fetch active hero carousel items
+        context['carousel_items'] = HeroCarousel.objects.filter(is_active=True).order_by('order')
         return context
 
 class ProductDetailView(DetailView):

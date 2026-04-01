@@ -3,7 +3,52 @@
 {% block title %}Shop Electronics - DENO RECORDS ELECTRONICS{% endblock %}
 
 {% block content %}
-<div class="flex flex-col md:flex-row gap-6">
+<!-- Hero Carousel Section (Only on Homepage) -->
+{% if not request.GET.category and not request.GET.q %}
+<div class="mb-8 -mx-4 md:mx-0 overflow-hidden rounded-none md:rounded-2xl shadow-lg border border-gray-100 relative group">
+    <div class="swiper heroSwiper h-[350px] md:h-[500px]">
+        <div class="swiper-wrapper">
+            {% for item in carousel_items %}
+            <div class="swiper-slide relative">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-16">
+                    <div class="max-w-2xl">
+                        {% if item.title %}
+                        <h2 class="text-3xl md:text-5xl font-black text-white mb-3 uppercase tracking-tighter transform translate-y-4 opacity-0 transition-all duration-700 delay-100 group-[.swiper-slide-active]:translate-y-0 group-[.swiper-slide-active]:opacity-100">
+                            {{ item.title }}
+                        </h2>
+                        {% endif %}
+                        {% if item.subtitle %}
+                        <p class="text-sm md:text-lg text-gray-200 mb-6 font-medium transform translate-y-4 opacity-0 transition-all duration-700 delay-300 group-[.swiper-slide-active]:translate-y-0 group-[.swiper-slide-active]:opacity-100">
+                            {{ item.subtitle }}
+                        </p>
+                        {% endif %}
+                        <div class="flex gap-4 transform translate-y-4 opacity-0 transition-all duration-700 delay-500 group-[.swiper-slide-active]:translate-y-0 group-[.swiper-slide-active]:opacity-100">
+                            <a href="#shop-now" class="bg-brand-orange text-white px-8 py-3 rounded-full font-bold hover:bg-orange-600 transition-colors shadow-lg">Shop Now</a>
+                            <a href="https://wa.me/254202021022" class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-colors">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="swiper-slide relative bg-brand-blue">
+                <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
+                    <h2 class="text-4xl md:text-6xl font-black text-white mb-4 uppercase tracking-tighter">Premium Electronics</h2>
+                    <p class="text-xl text-blue-200 mb-8 max-w-xl">Quality Sound Systems, Musical Instruments, and Home Appliances Delivered to Your Doorstep.</p>
+                    <a href="https://wa.me/254202021022" class="bg-brand-orange text-white px-10 py-4 rounded-full font-black text-lg hover:bg-orange-600 transition-all shadow-xl hover:scale-105 active:scale-95">ORDER VIA WHATSAPP</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Pagination & Navigation -->
+        <div class="swiper-pagination !bottom-6"></div>
+        <div class="swiper-button-next !text-white !right-4 md:!right-8 after:!text-2xl hidden md:flex"></div>
+        <div class="swiper-button-prev !text-white !left-4 md:!left-8 after:!text-2xl hidden md:flex"></div>
+    </div>
+</div>
+{% endif %}
+
+<div id="shop-now" class="flex flex-col md:flex-row gap-6">
     <!-- Sidebar / Filter: Shows on desktop, hidden on mobile -->
     <aside class="hidden md:block w-64 flex-shrink-0">
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 mb-6 sticky top-24">
@@ -142,4 +187,30 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.heroSwiper', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+        });
+    });
+</script>
 {% endblock %}

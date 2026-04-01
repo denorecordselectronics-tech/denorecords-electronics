@@ -50,3 +50,19 @@ class Product(models.Model):
 
     def get_features_list(self):
         return [f.strip() for f in self.key_features.split('\n') if f.strip()]
+
+class HeroCarousel(models.Model):
+    image = models.ImageField(upload_to='hero/')
+    title = models.CharField(max_length=200, blank=True)
+    subtitle = models.CharField(max_length=500, blank=True)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Hero Carousel Item"
+        verbose_name_plural = "Hero Carousel Items"
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.title if self.title else f"Carousel Item {self.id}"
