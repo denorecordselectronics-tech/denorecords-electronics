@@ -3,7 +3,8 @@ import io
 import urllib.request
 from django.core.management.base import BaseCommand
 from django.core.files.base import ContentFile
-from products.models import Product, Category
+from products.models import Product, Category, HeroCarousel
+import requests
 
 
 # Product data: (name, original_price, sale_price, category_slug, category_name, description, features, image_query)
@@ -90,6 +91,39 @@ PRODUCTS = [
     ),
 ]
 
+HERO_IMAGES = [
+    {
+        "url": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop",
+        "title": "Professional Sound Systems",
+        "subtitle": "Concert-ready speakers, amplifiers & PA systems. Trusted by DJs and event organizers across Kenya.",
+        "order": 1
+    },
+    {
+        "url": "https://images.unsplash.com/photo-1514525253361-bee8d4ada807?q=80&w=1924&auto=format&fit=crop",
+        "title": "Studio & Recording Gear",
+        "subtitle": "From microphones to MIDI controllers — everything you need to produce, record, and perform.",
+        "order": 2
+    },
+    {
+        "url": "https://images.unsplash.com/photo-1520529618193-27083049580b?q=80&w=2070&auto=format&fit=crop",
+        "title": "Musical Instruments",
+        "subtitle": "Keyboards, guitars, and more. Quality instruments for beginners and professionals alike.",
+        "order": 3
+    },
+    {
+        "url": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=1956&auto=format&fit=crop",
+        "title": "Live Event Equipment",
+        "subtitle": "Mixers, stage boxes, and wireless microphones. Power your next event with pro-grade gear.",
+        "order": 4
+    },
+    {
+        "url": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2001&auto=format&fit=crop",
+        "title": "Home Entertainment",
+        "subtitle": "Smart TV boxes, cameras, and home appliances delivered to your doorstep nationwide.",
+        "order": 5
+    }
+]
+
 
 def fetch_placeholder_image(query, index):
     """Fetch a placeholder image from Picsum (reliable, no auth needed)."""
@@ -150,4 +184,29 @@ class Command(BaseCommand):
             status = "Created" if created else "Updated"
             self.stdout.write(self.style.SUCCESS(f"  [{status}] {name} — KES {sale_price:,} (was KES {orig_price:,})"))
 
-        self.stdout.write(self.style.SUCCESS("\nAll products populated successfully!"))
+        self.stdout.write(self.style.SUCCESS("\nProducts populated successfully!"))
+
+        self.stdout.write(self.style.NOTICE("Starting Hero Carousel population..."))
+        # Clear existing items to avoid duplicates
+        HeroCarousel.objects.all().delete()
+
+        for item in HERO_IMAGES:
+            try:
+                self.stdout.write(f"  Fetching: {item['title']}...")
+                response = requests.get(item['url'], timeout=15)
+                if response.status_code == 200:
+                    filename = f"hero_{item['order']}.jpg"
+                    carousel_item = HeroCarousel(
+                        title=item['title'],
+                        subtitle=item['subtitle'],
+                        order=item['order'],
+                        is_active=True
+                    )
+                    carousel_item.image.save(filename, ContentFile(response.content), save=True)
+                    self.stdout.write(self.style.SUCCESS(f"    Success: {item['title']} added."))
+                else:
+                    self.stdout.write(self.style.ERROR(f"    Failed to fetch {item['title']}: Status {response.status_code}"))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f"    Error seeding {item['title']}: {e}"))
+                
+        self.stdout.write(self.style.SUCCESS("\nAll tasks completed successfully!"))
