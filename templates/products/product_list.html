@@ -5,46 +5,46 @@
 {% block content %}
 <!-- Hero Carousel Section (Only on Homepage) -->
 {% if not request.GET.category and not request.GET.q %}
-<div class="mb-8 -mx-4 md:mx-0 overflow-hidden rounded-none md:rounded-2xl shadow-lg border border-gray-100 relative group">
-    <div class="swiper heroSwiper h-[280px] md:h-[400px]">
+<div class="mb-6 -mx-4 md:mx-0 overflow-hidden rounded-none md:rounded-2xl shadow-lg relative">
+    <div class="swiper heroSwiper h-[220px] md:h-[320px]">
         <div class="swiper-wrapper">
             {% for item in carousel_items %}
             <div class="swiper-slide relative">
                 <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
-                <!-- Overlay with Opacity -->
-                <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-6 md:p-12">
-                    <div class="max-w-3xl">
+                <!-- Dark Overlay -->
+                <div class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center px-6 py-4 md:px-12 md:py-8">
+                    <div class="max-w-2xl">
                         {% if item.title %}
-                        <h2 class="text-2xl md:text-4xl font-black text-white mb-2 uppercase tracking-tighter transform translate-y-4 opacity-0 transition-all duration-700 delay-100 group-[.swiper-slide-active]:translate-y-0 group-[.swiper-slide-active]:opacity-100">
+                        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-white mb-1.5 md:mb-2 uppercase tracking-tight drop-shadow-lg">
                             {{ item.title }}
                         </h2>
                         {% endif %}
                         {% if item.subtitle %}
-                        <p class="text-xs md:text-base text-gray-100 mb-6 font-medium max-w-xl mx-auto transform translate-y-4 opacity-0 transition-all duration-700 delay-300 group-[.swiper-slide-active]:translate-y-0 group-[.swiper-slide-active]:opacity-100">
+                        <p class="text-[11px] sm:text-xs md:text-sm text-gray-100 mb-4 md:mb-5 font-medium max-w-md mx-auto drop-shadow-md">
                             {{ item.subtitle }}
                         </p>
                         {% endif %}
-                        <div class="flex flex-wrap justify-center gap-3 transform translate-y-4 opacity-0 transition-all duration-700 delay-500 group-[.swiper-slide-active]:translate-y-0 group-[.swiper-slide-active]:opacity-100">
-                            <a href="#shop-now" class="bg-brand-orange text-white px-6 py-2 md:px-8 md:py-2.5 rounded-full font-bold hover:bg-orange-600 transition-colors shadow-lg text-sm md:text-base">View Deals</a>
-                            <a href="https://wa.me/254202021022" class="bg-white/20 backdrop-blur-md text-white border border-white/30 px-6 py-2 md:px-8 md:py-2.5 rounded-full font-bold hover:bg-white/30 transition-colors text-sm md:text-base">Order Now</a>
+                        <div class="flex flex-wrap justify-center gap-2 md:gap-3">
+                            <a href="#shop-now" class="bg-brand-orange text-white px-5 py-1.5 md:px-7 md:py-2 rounded-full font-bold hover:bg-orange-600 transition-colors shadow-lg text-xs md:text-sm">View Deals</a>
+                            <a href="https://wa.me/254202021022" class="bg-white/20 backdrop-blur-sm text-white border border-white/30 px-5 py-1.5 md:px-7 md:py-2 rounded-full font-bold hover:bg-white/30 transition-colors text-xs md:text-sm">Order Now</a>
                         </div>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="swiper-slide relative bg-brand-blue">
-                <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-8 bg-black/20">
-                    <h2 class="text-3xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter">Premium Electronics</h2>
-                    <p class="text-sm md:text-lg text-blue-100 mb-8 max-w-xl">Quality Sound Systems, Musical Instruments, and Home Appliances.</p>
-                    <a href="https://wa.me/254202021022" class="bg-brand-orange text-white px-8 py-3 rounded-full font-black text-base hover:bg-orange-600 transition-all shadow-xl hover:scale-105">ORDER VIA WHATSAPP</a>
+                <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6 bg-black/20">
+                    <h2 class="text-2xl md:text-4xl font-black text-white mb-3 uppercase tracking-tight">Premium Electronics</h2>
+                    <p class="text-xs md:text-base text-blue-100 mb-5 max-w-lg">Quality Sound Systems, Musical Instruments, and Home Appliances.</p>
+                    <a href="https://wa.me/254202021022" class="bg-brand-orange text-white px-7 py-2.5 rounded-full font-black text-sm hover:bg-orange-600 transition-all shadow-xl hover:scale-105">ORDER VIA WHATSAPP</a>
                 </div>
             </div>
             {% endfor %}
         </div>
         <!-- Pagination & Navigation -->
-        <div class="swiper-pagination !bottom-6"></div>
-        <div class="swiper-button-next !text-white !right-4 md:!right-8 after:!text-2xl hidden md:flex"></div>
-        <div class="swiper-button-prev !text-white !left-4 md:!left-8 after:!text-2xl hidden md:flex"></div>
+        <div class="swiper-pagination !bottom-4"></div>
+        <div class="swiper-button-next !text-white !right-3 md:!right-6 after:!text-xl hidden md:flex"></div>
+        <div class="swiper-button-prev !text-white !left-3 md:!left-6 after:!text-xl hidden md:flex"></div>
     </div>
 </div>
 {% endif %}
