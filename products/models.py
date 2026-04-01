@@ -27,8 +27,12 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/')
     is_available = models.BooleanField(default=True)
     key_features = models.TextField(help_text="Enter features separated by a new line", blank=True)
+    order = models.IntegerField(default=0, help_text="Lower numbers appear first on the homepage")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
 
     def save(self, *args, **kwargs):
         if not self.slug:
