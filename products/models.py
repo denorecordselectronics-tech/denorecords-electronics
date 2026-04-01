@@ -23,6 +23,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     description = models.TextField()
     price = models.DecimalField(max_digits=12, decimal_places=2)
+    original_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, help_text="Used to show strike-through old price")
     image = models.ImageField(upload_to='products/')
     is_available = models.BooleanField(default=True)
     key_features = models.TextField(help_text="Enter features separated by a new line", blank=True)
@@ -40,6 +41,12 @@ class Product(models.Model):
     @property
     def formatted_price(self):
         return f"KES {self.price:,.0f}"
+
+    @property
+    def formatted_original_price(self):
+        if self.original_price:
+            return f"KES {self.original_price:,.0f}"
+        return None
 
     def get_features_list(self):
         return [f.strip() for f in self.key_features.split('\n') if f.strip()]

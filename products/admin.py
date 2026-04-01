@@ -9,7 +9,7 @@ class CategoryAdmin(UnfoldModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(UnfoldModelAdmin):
-    list_display = ('name', 'category', 'price', 'is_available', 'created_at')
+    list_display = ('name', 'category', 'original_price', 'price', 'is_available', 'created_at')
     list_filter = ('category', 'is_available', 'created_at')
     search_fields = ('name', 'description')
     prepopulated_fields = {'slug': ('name',)}

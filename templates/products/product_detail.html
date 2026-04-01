@@ -44,7 +44,12 @@
 
             <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 mb-4">{{ product.name }}</h1>
             
-            <p class="text-3xl font-bold text-blue-800 mb-6">{{ product.formatted_price }}</p>
+            <div class="mb-6 flex items-baseline gap-3">
+                <span class="text-3xl font-black text-red-500 tracking-tight">{{ product.formatted_price }}</span>
+                {% if product.formatted_original_price %}
+                <span class="text-xl text-gray-400 line-through font-medium">{{ product.formatted_original_price }}</span>
+                {% endif %}
+            </div>
 
             <div class="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6">
                 <p class="text-sm font-semibold text-blue-800">
@@ -100,7 +105,12 @@
                 {% endif %}
             </a>
             <h4 class="font-bold text-xs mb-1 truncate">{{ item.name }}</h4>
-            <p class="text-blue-600 font-bold text-sm">{{ item.formatted_price }}</p>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="text-sm font-black text-red-500 leading-none tracking-tight">{{ item.formatted_price }}</span>
+                {% if item.formatted_original_price %}
+                <span class="text-[10px] sm:text-xs text-gray-400 line-through font-medium">{{ item.formatted_original_price }}</span>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -110,8 +120,13 @@
 <!-- Mobile Sticky Bar -->
 <div class="fixed bottom-0 left-0 right-0 bg-white border-t p-4 z-50 md:hidden flex items-center justify-between gap-4">
     <div class="flex-shrink-0">
-        <p class="text-xs text-gray-500 font-bold">Total Price</p>
-        <p class="font-bold text-blue-800">{{ product.formatted_price }}</p>
+        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Total Price</p>
+        <div class="flex items-baseline gap-2 leading-none">
+            <span class="font-black text-red-500 text-base sm:text-lg">{{ product.formatted_price }}</span>
+            {% if product.formatted_original_price %}
+            <span class="text-[10px] text-gray-400 line-through font-medium">{{ product.formatted_original_price }}</span>
+            {% endif %}
+        </div>
     </div>
     <a href="{{ whatsapp_link }}" target="_blank"
        class="flex-grow whatsapp-green text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2">
